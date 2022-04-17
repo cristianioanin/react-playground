@@ -1,8 +1,10 @@
 import './App.css';
+import {useState} from "react";
 import Expenses from "./components/Expenses/Expenses";
+import NewExpense from "./components/NewExpense/NewExpense";
 
 function App() {
-  const expenses = [
+  const expensesDataSource = [
     {
       id: 'e1',
       title: 'Toilet Paper',
@@ -24,12 +26,30 @@ function App() {
     },
   ];
 
+  const [expenses, setExpenses] = useState(expensesDataSource);
+  const [filteredExpenses, setFilteredExpenses] = useState(expenses);
+
+  const addExpenseHandler = (payload) => {
+    setExpenses((snapshot) => {
+      return [...snapshot, payload];
+    });
+    setFilteredExpenses((snapshot) => {
+      return [...snapshot, payload];
+    });
+  }
+
+  const filterByYearHandler = (year) => {
+    if (year) {
+      return setFilteredExpenses(expenses.filter(expense => new Date(expense.date).getFullYear() === year));
+    }
+
+    setFilteredExpenses(expenses);
+  }
+
   return (
     <div>
-      <header>
-        <h1>Expenses</h1>
-      </header>
-      <Expenses expenses={expenses} />
+      <NewExpense onAddExpense={addExpenseHandler} />
+      <Expenses expenses={filteredExpenses} onFilterByYear={filterByYearHandler} />
     </div>
   );
 }
