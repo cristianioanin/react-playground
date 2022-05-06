@@ -27,29 +27,17 @@ function App() {
   ];
 
   const [expenses, setExpenses] = useState(expensesDataSource);
-  const [filteredExpenses, setFilteredExpenses] = useState(expenses);
 
   const addExpenseHandler = (payload) => {
     setExpenses((snapshot) => {
       return [...snapshot, payload];
     });
-    setFilteredExpenses((snapshot) => {
-      return [...snapshot, payload];
-    });
-  }
-
-  const filterByYearHandler = (year) => {
-    if (year) {
-      return setFilteredExpenses(expenses.filter(expense => new Date(expense.date).getFullYear() === year));
-    }
-
-    setFilteredExpenses(expenses);
   }
 
   return (
     <div>
       <NewExpense onAddExpense={addExpenseHandler} />
-      <Expenses expenses={filteredExpenses} onFilterByYear={filterByYearHandler} />
+      <Expenses expenses={expenses} />
     </div>
   );
 }
