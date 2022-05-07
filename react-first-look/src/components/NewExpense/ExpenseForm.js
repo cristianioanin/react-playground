@@ -9,7 +9,7 @@ const EventTarget = {
 
 const EMPTY_STRING = '';
 
-export const ExpenseForm = ({ onSaveExpense }) => {
+export const ExpenseForm = ({ onSaveExpense, onCancel }) => {
   const [title, setTitle] = useState(EMPTY_STRING);
   const [amount, setAmount] = useState(EMPTY_STRING);
   const [date, setDate] = useState(EMPTY_STRING);
@@ -31,7 +31,7 @@ export const ExpenseForm = ({ onSaveExpense }) => {
 
     const payload = {
       title,
-      amount,
+      amount: Number(amount),
       date: new Date(date)
     };
 
@@ -56,6 +56,7 @@ export const ExpenseForm = ({ onSaveExpense }) => {
         </div>
       </div>
       <div className="new-expense__actions">
+        <button type="button" onClick={onCancel}>Cancel</button>
         <button type="submit">Add Expense</button>
       </div>
     </form>
